@@ -43,6 +43,7 @@ create_nacl = true
 nacl_names  = ["web-nacl", "app-nacl"]
 nacl_rules  = {
   "web-nacl" = {
+    subnet_type = "public"
     subnet_indexes = [0] # first public subnet
     ingress_rules = [
       { protocol = "tcp", rule_no = 100, action = "allow", cidr_block = "0.0.0.0/0", from_port = 80, to_port = 80 },
@@ -53,6 +54,7 @@ nacl_rules  = {
     ]
   }
   "app-nacl" = {
+    subnet_type = "private"
     subnet_indexes = [0] # first private subnet
     ingress_rules = [
       { protocol = "tcp", rule_no = 100, action = "allow", cidr_block = "10.0.1.0/24", from_port = 0, to_port = 65535 }
@@ -72,20 +74,20 @@ security_groups_rule = {
   "alb" = {
     name = "alb"
     ingress_rules = [
-      { protocol = "tcp", from_port = 80, to_port = 80, cidr_blocks = ["0.0.0.0/0"], description = "Allow HTTP" },
-      { protocol = "tcp", from_port = 443, to_port = 443, cidr_blocks = ["0.0.0.0/0"], description = "Allow HTTPS" }
+      { protocol = "tcp", from_port = 80, to_port = 80, cidr_blocks = ["0.0.0.0/0"], source_sg_names = null, description = "Allow HTTP" },
+      { protocol = "tcp", from_port = 443, to_port = 443, cidr_blocks = ["0.0.0.0/0"], source_sg_names = null, description = "Allow HTTPS" }
     ]
     egress_rules = [
-      { protocol = "-1", from_port = 0, to_port = 0, cidr_blocks = ["0.0.0.0/0"], description = "Allow all outbound" }
+      { protocol = "-1", from_port = 0, to_port = 0, cidr_blocks = ["0.0.0.0/0"], source_sg_names = null, description = "Allow all outbound" }
     ]
   }
   "app" = {
     name = "app"
     ingress_rules = [
-      { protocol = "tcp", from_port = 8080, to_port = 8080, source_sg_names = ["alb"], description = "Allow traffic from ALB" }
+      { protocol = "tcp", from_port = 8080, to_port = 8080, cidr_blocks = null, source_sg_names = ["alb"], description = "Allow traffic from ALB" }
     ]
     egress_rules = [
-      { protocol = "-1", from_port = 0, to_port = 0, cidr_blocks = ["0.0.0.0/0"], description = "Allow all outbound" }
+      { protocol = "-1", from_port = 0, to_port = 0, cidr_blocks = ["0.0.0.0/0"], source_sg_names = null, description = "Allow all outbound" }
     ]
   }
 }
