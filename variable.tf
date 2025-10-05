@@ -24,11 +24,8 @@ variable "private_subnet_azs"   { type = list(string) }
 # *************************************************
 # Route Table Variables
 # *************************************************
-variable "public_route_table" { type = string }
-variable "private_route_table" { type = string }
-
-variable "public_rt_cidr_block" { type = string }
-variable "private_rt_cidr_block" { type = string }
+# Note: Route table names are auto-generated based on env and project_name
+# CIDR blocks are hardcoded to 0.0.0.0/0 in route_table module
 
 # *************************************************
 # NACL Variables
@@ -77,10 +74,5 @@ variable "common_tags" { type = map(string) }
 # NAT Gateway / EIP Variables
 # *************************************************
 variable "eip_domain" { type = string }
-variable "public_subnet_ids" { type = list(string) }       # root module se NAT Gateway ke liye
-variable "nat_gateway_subnet_index" {
-  description = "NAT Gateway index"
-  default     = 0
-}
 
 

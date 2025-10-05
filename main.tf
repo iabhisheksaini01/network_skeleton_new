@@ -134,7 +134,7 @@ module "alb" {
   lb_internal = var.lb_internal
   lb_type = var.lb_type
   lb_enable_deletion = var.lb_enable_deletion
-  alb_sg_id = var.create_alb && var.create_sg ? module.security_group.all_sg_ids["alb"] : ""
+  alb_sg_ids = var.create_alb && var.create_sg ? [module.security_group.all_sg_ids["alb"]] : []
   public_subnet_ids = module.subnet.public_subnet_ids
   env = var.env
   common_tags = var.common_tags

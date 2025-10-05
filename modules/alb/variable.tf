@@ -18,8 +18,9 @@ variable "lb_enable_deletion" {
   type = bool 
 }
 
-variable "alb_sg_id" { 
-  type = string 
+variable "alb_sg_ids" {
+  type = list(string)
+  description = "List of security group IDs for ALB"
 }
 
 variable "public_subnet_ids" { 
